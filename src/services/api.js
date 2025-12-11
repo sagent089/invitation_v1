@@ -82,8 +82,11 @@ export async function fetchAttendanceStats(uid) {
 export async function fetchInvitation(uid) {
 
   const response = await fetch(`${API_URL}/api/invitation/${uid}`);
+  console.log(response)
+
   if (!response.ok) {
     const error = await response.json();
+    console.log(error)
     throw new Error(error.error || 'Failed to fetch invitation');
   }
   return response.json();
