@@ -4,6 +4,17 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 
+import pkg from "pg";
+const { Client } = pkg;
+
+console.log(process.env.DATABASE_URL);
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+});
+
+await client.connect();
+
 // Create main app and API sub-app
 const app = new Hono()
 const api = new Hono()
@@ -14,6 +25,15 @@ app.use('*', cors({
   origin: '*',
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
 }))
+
+app.get("/health", async (c) => {
+  try {
+    await client.query("SELECT 1");
+    return c.json({ db: "connected" });
+  } catch (e) {
+    return c.json({ db: "failed", error: String(e) });
+  }
+});
 
 // Database connection helper
 // In Cloudflare Workers, use Hyperdrive binding (c.env.DB)
@@ -49,7 +69,7 @@ app.use('*', cors({
 
 async function getDbClient(c) {
   const connectionString = c?.env?.DATABASE_URL || process.env.DATABASE_URL;
-
+  console.log(process.env.DATABASE_URL);
   if (!connectionString) {
     throw new Error('DATABASE_URL is not set. Please configure your .env file.');
   }

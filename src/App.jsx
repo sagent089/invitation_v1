@@ -15,7 +15,8 @@
  */
 
 // src/App.jsx
-import { useState } from 'react';
+// import { useState } from 'react';
+import { useEffect, useState } from "react";
 import { AnimatePresence } from 'framer-motion';
 import Layout from '@/components/Layout';
 import MainContent from '@/pages/MainContent';
@@ -49,6 +50,16 @@ function App() {
   // Use config from API if available, otherwise fall back to static config
   const activeConfig = config || staticConfig.data;
 
+  const [dbStatus, setDbStatus] = useState("checking...");
+  
+
+   useEffect(() => {
+    fetch("http://localhost:3000/health") // ganti port sesuai server Hono
+      .then((res) => res.json())
+      .then((data) => setDbStatus(data.db))
+      .catch(() => setDbStatus("failed"));
+  }, []);
+
   // Show loading state
   if (isLoading) {
     return (
@@ -56,6 +67,14 @@ function App() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Memuat undangan...</p>
+          <p className="text-sm text-gray-500">
+            Status Database:{" "}
+            {dbStatus == "checking..."
+              ? "Memeriksa koneksi database..."
+              : dbStatus == "connected"
+              ? "Database Terhubung ✓"
+              : "Gagal Terhubung ✗"}
+          </p>
         </div>
       </div>
     );
@@ -68,6 +87,17 @@ function App() {
         <div className="text-center max-w-md mx-auto p-6">
           <div className="text-rose-500 text-6xl mb-4">⚠️</div>
           <h1 className="text-2xl font-serif text-gray-800 mb-2">Undangan Tidak Ditemukan</h1>
+           <p>{import.meta.env.VITE_API_URL}</p>
+            <p>{import.meta.env.DATABASE_URL}</p>
+            <p>{import.meta.env.VITE_INVITATION_UID}</p>
+            <p className="text-sm text-gray-500">
+              Status Database:{" "}
+              {dbStatus == "checking..."
+                ? "Memeriksa koneksi database..."
+                : dbStatus == "connected"
+                ? "Database Terhubung ✓"
+                : "Gagal Terhubung ✗"}
+            </p>
           <p className="text-gray-600 mb-4">{error}</p>
           <p className="text-sm text-gray-500">Silakan periksa URL Anda atau hubungi penyelenggara.</p>
         </div>
