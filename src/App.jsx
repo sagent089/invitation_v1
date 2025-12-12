@@ -88,7 +88,7 @@ function App() {
           <div className="text-rose-500 text-6xl mb-4">⚠️</div>
           <h1 className="text-2xl font-serif text-gray-800 mb-2">Undangan Tidak Ditemukan</h1>
            <p>{import.meta.env.VITE_API_URL}</p>
-            <p>{import.meta.env.DATABASE_URL}</p>
+            <p>{import.meta.env.VITE_DATABASE_URL}</p>
             <p>{import.meta.env.VITE_INVITATION_UID}</p>
             <p className="text-sm text-gray-500">
               Status Database:{" "}

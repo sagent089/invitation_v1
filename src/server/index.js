@@ -7,9 +7,9 @@ import { logger } from 'hono/logger'
 import pkg from "pg";
 const { Client } = pkg;
 
-console.log(process.env.DATABASE_URL);
+console.log(process.env.VITE_DATABASE_URL);
 const client = new Client({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.VITE_DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
 
