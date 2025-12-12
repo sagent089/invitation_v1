@@ -93,6 +93,7 @@ async function getDbClient(c) {
 // Get invitation by UID with all related data
 api.get('/invitation/:uid', async (c) => {
   const { uid } = c.req.param()
+  // const uid = c.req.param('uid')
   try {
     const pool = await getDbClient(c)
 
@@ -254,7 +255,10 @@ api.post('/:uid/wishes', async (c) => {
 
 // Delete a wish (optional - for admin)
 api.delete('/:uid/wishes/:id', async (c) => {
-  const { uid, id } = c.req.param()
+  // const { uid, id } = c.req.param()
+  
+  const uid = c.req.param('uid')
+  const id = c.req.param('id')
 
   try {
     const pool = await getDbClient(c)
@@ -276,7 +280,8 @@ api.delete('/:uid/wishes/:id', async (c) => {
 
 // Get attendance stats
 api.get('/:uid/stats', async (c) => {
-  const { uid } = c.req.param()
+  // const { uid } = c.req.param()
+  const uid = c.req.param('uid')
 
   try {
     const pool = await getDbClient(c)

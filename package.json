@@ -15,7 +15,8 @@
     "deploy": "bun run build && wrangler deploy",
     "cf:dev": "wrangler dev",
     "cf:deploy": "wrangler deploy",
-    "cf:tail": "wrangler tail"
+    "cf:tail": "wrangler tail",
+    "preview:server": "bun src/server/server.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.8.0",
