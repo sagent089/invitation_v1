@@ -54,7 +54,7 @@ function App() {
   
 
    useEffect(() => {
-    fetch("http://localhost:3000/health") // ganti port sesuai server Hono
+    fetch("https://limittech.vercel.app/health") // ganti port sesuai server Hono
       .then((res) => res.json())
       .then((data) => setDbStatus(data.db))
       .catch(() => setDbStatus("failed"));
